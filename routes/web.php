@@ -20,9 +20,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/frontpage', function () {
-    return view('frontpage');
-});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -30,8 +27,13 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
+//Storefront routes
+Route::get('/frontpage', function () {
+    return view('storefront.index');
+});
 
-//admin 
+
+//admin  routes
 Route::resources([
     'product' => ProductController::class,
     'category' => CategoryController::class,
