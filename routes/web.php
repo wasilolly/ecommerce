@@ -20,18 +20,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-require __DIR__.'/auth.php';
-
 //Storefront routes
 Route::get('/frontpage', function () {
     return view('storefront.index');
 });
-
 
 //admin  routes
 Route::resources([
@@ -39,6 +31,18 @@ Route::resources([
     'category' => CategoryController::class,
 ]);
 
-Route::get('/admin/settings', function ($id) {
-    
-});
+Route::get('/admin/settings', function () {
+    return view('admin.dashboard');
+})->name('admin.dashboard');
+
+
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
+
+
+
+

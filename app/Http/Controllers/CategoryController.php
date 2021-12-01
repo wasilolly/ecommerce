@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -13,17 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
-    }
+        return view('admin.category.index',['categories' => Category::latest()->get()]);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -34,7 +27,19 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required'
+        ]);
+
+        Category::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'slug' => Str::slug($request->title)
+        ]);
+        
+        return redirect()->route('category.index');
+
     }
 
     /**
@@ -44,19 +49,8 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+    {       
+        return view('admin.category.show',[ 'category' => Category::find($id)]);
     }
 
     /**
@@ -68,7 +62,15 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required'
+        ]);
+        $category = Category::find($id);
+        $category->slug = Str::slug($request->name);
+        $category->update($request->all());
+
+        return view('admin.category.show',[ 'category' => $category]);
     }
 
     /**
@@ -79,6 +81,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Category::find($id)->delete();
+        return redirect()->route('category.index');
     }
 }
