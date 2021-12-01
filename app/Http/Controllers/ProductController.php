@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\CategoryProduct;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 
 class ProductController extends Controller
 {
@@ -13,7 +18,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.product.index', ['products' => Product::latest()->get()]);
     }
 
     /**
@@ -23,7 +28,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.product.create', ['categories' => Category::latest()->get()]);
     }
 
     /**
@@ -34,7 +39,40 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'name' => 'required',
+            'quantity' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+            'image' => 'required'
+        ]);
+
+
+        $product = new Product;
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('products');
+            $product->image = $path;
+        }
+
+        $product->slug = Str::slug($request->name);
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->quantity = $request->quantity;
+        $product->save();
+
+        if ($request->has('categories')) {
+            foreach ($request->categories as $category) {
+                CategoryProduct::create([
+                    'product_id' => $product->id,
+                    'category_id' => $category
+                ]);
+            }
+        }
+
+        return redirect(route('product.index'));
     }
 
     /**
@@ -45,7 +83,10 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('admin.product.show', [
+            'product' => Product::find($id),
+            'categories' => Category::latest()->get()
+        ]);
     }
 
     /**
@@ -54,21 +95,35 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+
+        $attributes = $request->validate([
+            'name' => 'required',
+            'quantity' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+        ]);
+
+        $product = Product::find($id);
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('products');
+            $attributes['image'] = $path;
+        }
+
+        $attributes['slug'] = Str::slug($request->name);
+        $product->update($attributes);
+
+        if ($request->has('categories')) {
+            foreach ($request->categories as $category) {
+                CategoryProduct::create([
+                    'product_id' => $product->id,
+                    'category_id' => $category
+                ]);
+            }
+        }
+        return redirect(route('product.index'));
     }
 
     /**
@@ -79,6 +134,8 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        CategoryProduct::where('product_id', $id)->delete();
+        Product::where('id',$id)->delete();
+        return redirect(route('product.index'));
     }
 }

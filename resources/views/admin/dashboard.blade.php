@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" x-data="data()">
+<html lang="en" >
 
 <head>
     <meta charset="UTF-8">
@@ -12,13 +12,13 @@
 
     <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:200,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/ecommerce.css">
+    <link rel="stylesheet" href={{asset('css/ecommerce.css')}}>
     <script src="//unpkg.com/alpinejs" defer></script>
     <script src="js/focus-trap.js"></script>
     <script src="js/init-alpine.js"></script>
 </head>
 
-<body class="text-gray-600 work-sans leading-normal text-base tracking-normal">
+<body class="text-gray-600 work-sans leading-normal text-base tracking-normal" x-data="data()">
 
     <!--Nav-->
     @include('layouts.nav')
@@ -33,23 +33,25 @@
                     <hr>
                     <li><a href="{{ route('category.index') }}">Categories</a></li>
                     <hr>
-                    <li>Products</li>
+                    <li><a href="{{ route('product.index') }}">Products</a></li>
                     <hr>
                     <li>Users</li>
-
+                    <hr>
+                    <li>Social</li>
                 </ul>
             </div>
-            <div class=" content col-span-3 ... ">
+            <div class="content col-span-3 ... ">
                 @yield('content')
             </div>
         </div>
         
+        @include('layouts.about')
+        <!--footer-->
+        @include('layouts.footer')
     </div>
 
-    @include('layouts.about')
-
-    <!--footer-->
-    @include('layouts.footer')
+    
+    
 </body>
 
 </html>
