@@ -28,12 +28,40 @@ class Product extends Model
 	}
 
     /**
-     * The roles that belong to the Product
+     * Get the categories for the product
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \App\Models\Category
      */
-    public function categories()
+    public function getProductCategories()
     {
-        return $this->belongsToMany(Category::class, 'category_product_table', 'category_id', 'product_id');
+        $categories = array();
+        $rows = CategoryProduct::where('product_id',$this->id)->get();
+        foreach ($rows as $row ) {
+            $category = Category::find($row->category_id);
+            array_push($categories, $category);
+        } 
+        return $categories;
+    }
+
+    /**
+     * Get the similar products
+     *
+     * @return \App\Models\Product
+     */
+    public function getSimilarProducts()
+    {
+        $similarProducts = array();
+
+        //get the first row product and its category
+        $row = CategoryProduct::where('product_id',$this->id)->first();
+
+        //take 4 rows that matched the assigned categoryid
+        $categoryproducts = CategoryProduct::where('category_id', $row->category_id)->take(4)->get();
+
+        foreach ($categoryproducts as $categoryproduct) {
+            $product = Product::find($categoryproduct->product_id);
+            array_push($similarProducts, $product);
+        }
+        return $similarProducts;
     }
 }

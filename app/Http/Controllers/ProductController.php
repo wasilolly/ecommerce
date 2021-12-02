@@ -115,14 +115,19 @@ class ProductController extends Controller
         $attributes['slug'] = Str::slug($request->name);
         $product->update($attributes);
 
+        //if user has chosen to assign a category to the product
         if ($request->has('categories')) {
-            foreach ($request->categories as $category) {
-                CategoryProduct::create([
-                    'product_id' => $product->id,
-                    'category_id' => $category
-                ]);
+            foreach ($request->categories as $category) { 
+                //check if the products has not been assigned to the category         
+                if (!$this->alreadyAssigned($product->id,$category)){
+                    CategoryProduct::create([
+                        'product_id' => $product->id,
+                        'category_id' => $category
+                    ]);
+                }
             }
         }
+       
         return redirect(route('product.index'));
     }
 
@@ -135,7 +140,27 @@ class ProductController extends Controller
     public function destroy($id)
     {
         CategoryProduct::where('product_id', $id)->delete();
-        Product::where('id',$id)->delete();
+        Product::where('id', $id)->delete();
         return redirect(route('product.index'));
+    }
+
+    /**
+     * Check if category is already assigned to the product
+     *
+     * @param [type] $product_id
+     * @param [type] $category_id
+     * @return boolean
+     */
+    public function alreadyAssigned($product_id, $category_id)
+    {
+        //check if the products has not been assigned to the category
+        $assigned = CategoryProduct::where('product_id', $product_id)
+            ->where('category_id', $category_id)
+            ->first();
+
+        if (isset($assigned)) {
+            return true;
+        }
+        return false;
     }
 }

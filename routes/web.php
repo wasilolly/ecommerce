@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\StoreFrontController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -17,14 +18,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
 
 //Storefront routes
-Route::get('/frontpage', function () {
-    return view('storefront.index');
-});
+Route::get('/', [StoreFrontController::class, 'index']);
+Route::get('/product/{slug}/show', [StoreFrontController::class, 'show'])->name('singleproduct.show');
+Route::get('/category/{slug}/show', [StoreFrontController::class, 'category'])->name('singlecategory.show');
+
 
 //admin  routes
 Route::resources([

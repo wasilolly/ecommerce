@@ -28,10 +28,16 @@ class Category extends Model
     /**
      * Get all of the products for the Category
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \App\Models\Product
      */
-    public function products()
+    public function getCategoryProducts()
     {
-        return $this->belongsToMany(Product::class);
+        $products = array();
+        $rows = CategoryProduct::where('category_id',$this->id)->get();
+        foreach ($rows as $row ) {
+            $product = Product::find($row->product_id);
+            array_push($products, $product);
+        } 
+        return $products;
     }
 }
