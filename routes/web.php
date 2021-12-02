@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -31,9 +32,10 @@ Route::resources([
     'category' => CategoryController::class,
 ]);
 
-Route::get('/admin/settings', function () {
-    return view('admin.dashboard');
-})->name('admin.dashboard');
+Route::get('/admin/dashboard', [SettingsController::class, 'dashboard'])->name('admin.dashboard');
+Route::get('/admin/dashboard/settings',[SettingsController::class, 'settings'])->name('admin.settings');
+Route::patch('/admin/dashboard/settings',[SettingsController::class, 'updateSettings'])->name('admin.updateSettings');
+
 
 
 

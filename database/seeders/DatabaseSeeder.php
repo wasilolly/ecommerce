@@ -62,5 +62,11 @@ class DatabaseSeeder extends Seeder
             'description' => 'This is the product description'
         ]);
 
+        \App\Models\Settings::create([
+            'about' => '',
+            'footer' => '',
+            'banner'=> ''
+        ]);
+
     }
 }
