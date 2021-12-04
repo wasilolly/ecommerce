@@ -13,8 +13,8 @@
     <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
     <!--Replace with your tailwind.css once created-->
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:200,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href={{asset('css/ecommerce.css')}}>
+
 </head>
 
 <body class="bg-white text-gray-600 work-sans leading-normal text-base tracking-normal">
@@ -36,8 +36,11 @@
         <span>View more &RightArrow;</span>
     </a>
 
-    
-    <section class="bg-white py-8">
+    <div class="alert">
+       
+    </div>
+
+    <section class="bg-white">
         <div class="container mx-auto flex items-center flex-wrap pt-4">
             <!--Header section -->
             <nav id="store" class="w-full z-30 top-0 px-6 py-1">
@@ -49,12 +52,6 @@
                     </a>
 
                     <div class="flex items-center" id="store-nav-content">
-                        <a class="pl-3 inline-block no-underline hover:text-black" href="#">
-                            <svg class="fill-current hover:text-black" xmlns="http://www.w3.org/2000/svg" width="24"
-                                height="24" viewBox="0 0 24 24">
-                                <path d="M7 11H17V13H7zM4 7H20V9H4zM10 15H14V17H10z" />
-                            </svg>
-                        </a>
 
                         <div class="relative mt-6 max-w-lg mx-auto">
                             <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
@@ -71,14 +68,50 @@
             
             @yield('content')
         </div>
-
-       
-
     </section>
 
     @include('layouts.about')
 
     @include('layouts.footer')
+
+    
+    <script src={{asset('js/ecommerce.js')}}></script>
+    <script src={{asset('js/cart.js')}}></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#addToCart").click(function(){
+                let id = $("#productId").val();
+                let unit = $("#unit").text(); 
+                $.get("/product/cart/add",
+                {
+                    id: id,
+                    unit: unit
+                },
+                function(data,status){
+                    if(data['product']){
+                        console.log(data);
+                        let product = data['product']['name'];
+                        swal({
+                            title: "Added to Cart!",
+                            text: product,
+                            icon: "success",
+                            button: "Keep Shopping",
+                            timer: 2000
+                        }); 
+                        //let qty = $("#cartqty").text();
+                       // let cartqty = parseFloat(qty) + parseFloat(unit);
+                        let qty = data['qty']
+                        $("#cartqty").text(qty);
+                    }         
+                });
+            });
+        });
+        
+    </script>
+    
+    
 </body>
 
 </html>

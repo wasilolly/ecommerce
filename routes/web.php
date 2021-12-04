@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingsController;
@@ -26,6 +27,12 @@ Route::get('/welcome', function () {
 Route::get('/', [StoreFrontController::class, 'index']);
 Route::get('/product/{slug}/show', [StoreFrontController::class, 'show'])->name('singleproduct.show');
 Route::get('/category/{slug}/show', [StoreFrontController::class, 'category'])->name('singlecategory.show');
+
+//cart ajax call
+Route::get('/product/cart/add',[CartController::class, 'add']);
+Route::get('/cart',[CartController::class, 'cart']);
+Route::post('/carts/remove',[CartController::class, 'remove'])->name('cart.remove');
+
 
 
 //admin  routes
