@@ -45,9 +45,9 @@
                     <hr>
                     <li><a href="{{ route('product.index') }}">Products</a></li>
                     <hr>
-                    <li>Users</li>
+                    <li><a href="{{ route('admin.users') }}">Users</a></li>
                     <hr>
-                    <li>Order</li>
+                    <li><a href="{{ route('admin.orders') }}">Orders</a></li>
                 </ul>
             </div>
             <div class="content col-span-3 ... ">
@@ -55,9 +55,6 @@
             </div>
         </div>
         
-        @include('layouts.about')
-        <!--footer-->
-        @include('layouts.footer')
     </div>
    
 </body>

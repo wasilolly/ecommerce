@@ -1,36 +1,41 @@
 @extends('storefront.main')
 
-@section('banner')
-    <!-- Banner section -->
-    <div class="flex items-center justify-between p-4 mb-1 text-sm font-semibold text-purple-100      bg-purple-600 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple">
-        <div class="flex items-center">
-            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
-                </path>
-            </svg>
-            <span>{{$setting->banner}} {{$setting->coupon}}</span>
-            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
-                </path>
-            </svg>
-        </div>
-    </div>
-@endsection
-
 @section('Header')
- CART
-@endsection
+<button type="button" id="downloadpdf" class="ml-5 font-bold underline">Download</button>
 
+@endsection
 @section('content')
 
 <!-- component -->
-<div class="flex justify-center my-6">
-    @if ($cart)       
+<div class="flex justify-center my-6" id="receipt">
     <div class="flex flex-col w-full p-8 text-gray-800 bg-white shadow-lg pin-r pin-y md:w-4/5 lg:w-4/5">
-        <div class="flex-1">
+       
+        <!--Logo and customer metadate -->
+        <div class="row">
+             <!--logo -->
+            <div class="order-1 md:order-2  float-right">
+                <a class="flex items-center tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl"
+                    href="/">
+                    <svg class="fill-current text-gray-800 mr-2" xmlns="http://www.w3.org/2000/svg" width="100" height="100"
+                        viewBox="0 0 24 24">
+                        <path
+                            d="M5,22h14c1.103,0,2-0.897,2-2V9c0-0.553-0.447-1-1-1h-3V7c0-2.757-2.243-5-5-5S7,4.243,7,7v1H4C3.447,8,3,8.447,3,9v11 C3,21.103,3.897,22,5,22z M9,7c0-1.654,1.346-3,3-3s3,1.346,3,3v1H9V7z M5,10h2v2h2v-2h6v2h2v-2h2l0.002,10H5V10z" />
+                    </svg>
+                    NORDICS
+                </a>
+            </div>
+            
+            <!--customer details -->
+            <div class="p-4 bg-gray-100 w-1/3 rounded">
+                <p class="ml-2 font-bold uppercase">{{ $order->name}}</p>
+                <p class="ml-2 font-bold uppercase">{{ $order->email}}</p>
+                <p class="ml-2 font-bold uppercase">{{ $order->address}}</p>
+            </div> 
+             
+           
+        </div>      
 
+        <div class="flex-1">
             <!--Products Table -->
             <table class="w-full text-sm lg:text-base" cellspacing="0">
                 <thead>
@@ -47,7 +52,7 @@
                 </thead>
                                   
                 <tbody>
-                    @foreach($cart->products as $product)
+                    @foreach($order->cart->products as $product)
                         <tr>
                             <!-- Product profile-->
                             <td class="hidden pb-4 md:table-cell">
@@ -98,35 +103,15 @@
 
             <hr class="pb-6 mt-6">
 
-            @if($cart)
             <!--Order metadata -->
             <div class="my-4 mt-6 -mx-2 lg:flex">
                 <div class="lg:px-2 lg:w-1/2">
-                    <div class="p-4 bg-gray-100 rounded-full">
-                            <h1 class="ml-2 font-bold uppercase">Coupon Code</h1>
-                    </div>
-                    <div class="p-4">
-                        <p class="mb-4 italic">If you have a coupon code, please enter it in the box below</p>
-                        <div class="justify-center md:flex">
-                            <!--coupon section -->
-                            <form action="" method="POST">
-                                <div class="flex items-center w-full h-13 pl-3 bg-white bg-gray-100 border rounded-full">
-                                <input type="coupon" name="code" id="coupon" placeholder="Apply coupon" value="{{$setting->coupon}}"
-                                        class="w-full bg-gray-100 outline-none appearance-none focus:outline-none active:outline-none"/>
-                                    <button type="submit" class="text-sm flex items-center px-3 py-1 text-white bg-gray-800 rounded-full outline-none md:px-4 hover:bg-gray-700 focus:outline-none active:outline-none">
-                                    <svg aria-hidden="true" data-prefix="fas" data-icon="gift" class="w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 448c0 17.7 14.3 32 32 32h160V320H32v128zm256 32h160c17.7 0 32-14.3 32-32V320H288v160zm192-320h-42.1c6.2-12.1 10.1-25.5 10.1-40 0-48.5-39.5-88-88-88-41.6 0-68.5 21.3-103 68.3-34.5-47-61.4-68.3-103-68.3-48.5 0-88 39.5-88 88 0 14.5 3.8 27.9 10.1 40H32c-17.7 0-32 14.3-32 32v80c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16v-80c0-17.7-14.3-32-32-32zm-326.1 0c-22.1 0-40-17.9-40-40s17.9-40 40-40c19.9 0 34.6 3.3 86.1 80h-86.1zm206.1 0h-86.1c51.4-76.5 65.7-80 86.1-80 22.1 0 40 17.9 40 40s-17.9 40-40 40z"/></svg>
-                                    <span class="font-medium">Apply coupon</span>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
                     <div class="p-4 mt-6 bg-gray-100 rounded-full">
                         <h1 class="ml-2 font-bold uppercase">Instruction for seller</h1>
                     </div>
                     <div class="p-4">
-                        <p class="mb-4 italic">If you have some information for the seller you can leave them in the box below</p>
-                        <textarea class="w-full h-24 p-2 bg-gray-100 rounded"></textarea>
+                        <p class="mb-4 italic">information for the seller you can leave them in the box below</p>
+                        <textarea class="w-full h-24 p-2 bg-gray-100 rounded">{{$order->message }}</textarea>
                     </div>
                 </div>
                 <div class="lg:px-2 lg:w-1/2">
@@ -140,7 +125,7 @@
                                 Subtotal
                             </div>
                             <div id="cartTotal" class="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                                {{$cart->totalPrice}}
+                                {{$order->cart->totalPrice}}
                             </div>
                         </div>
                         <div class="flex justify-between pt-4 border-b">
@@ -161,7 +146,7 @@
                             New Subtotal
                             </div>
                             <div class="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                                €{{$cart->totalPrice}}
+                                €{{$order->cart->totalPrice}}
                             </div>
                         </div>
                         <div class="flex justify-between pt-4 border-b">
@@ -177,24 +162,14 @@
                             Total
                             </div>
                             <div class="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                           €{{$cart->totalPrice}}
+                           €{{$order->cart->totalPrice}}
                             </div>
                         </div>
-                        <a href="{{ route('cart.checkout')}}">
-                        <button class="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
-                            <svg aria-hidden="true" data-prefix="far" data-icon="credit-card" class="w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M527.9 32H48.1C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48.1 48h479.8c26.6 0 48.1-21.5 48.1-48V80c0-26.5-21.5-48-48.1-48zM54.1 80h467.8c3.3 0 6 2.7 6 6v42H48.1V86c0-3.3 2.7-6 6-6zm467.8 352H54.1c-3.3 0-6-2.7-6-6V256h479.8v170c0 3.3-2.7 6-6 6zM192 332v40c0 6.6-5.4 12-12 12h-72c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h72c6.6 0 12 5.4 12 12zm192 0v40c0 6.6-5.4 12-12 12H236c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h136c6.6 0 12 5.4 12 12z"/></svg>
-                            <span class="ml-2 mt-5px">Procceed to checkout</span>
-                        </button>
-                        </a>
                     </div>
                 </div>
-            </div> 
-            @endif           
-    
+            </div>     
         </div>
+
     </div>        
-    @else
-    <p class="text-center font-bold underline">Nothing to see here!! Get shopping!!</p>    
-    @endif
 </div>
 @endsection

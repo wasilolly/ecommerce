@@ -17,7 +17,9 @@ class Settings extends Model
     protected $fillable = [
         'about',
         'footer',
-        'banner'
+        'banner',
+        'coupon',
+        'tax'
     ];
 
 }

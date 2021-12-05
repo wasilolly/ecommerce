@@ -15,25 +15,28 @@
                     @method('PATCH')
                     <div>
                         <x-label for="about" :value="__('About')" />   
-                        <textarea
-                        class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" cols="30"
-                        rows="10" name="about" placeholder="Add more to the about section..."
-                        >{{ $setting->about }}</textarea>
+                        <x-textarea :value="$setting->about" name="about" rows="7" cols="30" placeholder="Update about section......"  />
                     </div>
                                         
                     <x-label for="Footer" :value="__('Footer')" class="text-gray-700 dark:text-gray-400"/>   
-                    <textarea
-                        class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" cols="30"
-                        rows="8" name="footer"
-                        placeholder="Add more to the footer....."
-                    >{{ $setting->footer }}</textarea>
+                    <x-textarea :value="$setting->footer" name="footer" rows="5" cols="30" placeholder="Update footer section......"  />
 
                     <x-label for="banner" :value="__('Banner')" class="text-gray-700 dark:text-gray-400"/>   
-                    <textarea
-                        class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" cols="30"
-                        rows="5" name="banner"
-                        placeholder="Describe the product....."
-                    >{{ $setting->banner }}</textarea>
+                    <x-textarea :value="$setting->banner" name="banner" rows="3" cols="30" placeholder="Update banner section......"  />
+                    
+                    <div class="flex flex-row justify">
+                        <div class="mr-5 w-1/2">
+                            <x-label for="coupon" :value="__('Coupon')" class="text-gray-700 dark:text-gray-400"/>   
+                            <x-textarea :value="$setting->coupon" name="coupon" rows="3" cols="15" placeholder="Update Coupon code......"  />
+                        </div>
+                        <div class="w-1/2">
+                            <x-label for="tax" :value="__('Tax')" class="text-gray-700 dark:text-gray-400"/>   
+                            <input type="number" name="tax" value="{{$setting->tax}}" class="w-full h-auto">
+                        </div>                      
+                    </div>
+
+
+
 
                     <button type="submit"
                         class="float-right px-4 py-2 mt-5 text-m font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">

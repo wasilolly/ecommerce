@@ -55,13 +55,16 @@ class Product extends Model
         //get the first row product and its category
         $row = CategoryProduct::where('product_id',$this->id)->first();
 
-        //take 4 rows that matched the assigned categoryid
-        $categoryproducts = CategoryProduct::where('category_id', $row->category_id)->take(4)->get();
+        //If product was assigned a category
+        if($row){
+            //take 4 rows that matched the assigned categoryid
+            $categoryproducts = CategoryProduct::where('category_id', $row->category_id)->take(4)->get();
 
-        foreach ($categoryproducts as $categoryproduct) {
-            $product = Product::find($categoryproduct->product_id);
-            array_push($similarProducts, $product);
-        }
+            foreach ($categoryproducts as $categoryproduct) {
+                $product = Product::find($categoryproduct->product_id);
+                array_push($similarProducts, $product);
+            }
+        } 
         return $similarProducts;
     }
 }

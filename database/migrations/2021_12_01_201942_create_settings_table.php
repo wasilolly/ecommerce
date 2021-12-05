@@ -18,7 +18,7 @@ class CreateSettingsTable extends Migration
             $table->text('about')->nullable();
             $table->text('footer')->nullable();
             $table->text('banner')->nullable();
-            $table->text('Tax')->nullable();
+            $table->bigInteger('tax')->nullable();
             $table->text('coupon')->nullable();
             $table->timestamps();
         });

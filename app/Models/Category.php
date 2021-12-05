@@ -33,11 +33,15 @@ class Category extends Model
     public function getCategoryProducts()
     {
         $products = array();
+
         $rows = CategoryProduct::where('category_id',$this->id)->get();
-        foreach ($rows as $row ) {
+        if(isset($rows)){
+            foreach ($rows as $row ) {
             $product = Product::find($row->product_id);
             array_push($products, $product);
-        } 
+        }  
+        }
+       
         return $products;
     }
 }

@@ -63,9 +63,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Settings::create([
-            'about' => '',
-            'footer' => '',
-            'banner'=> ''
+            'about' => 'This is the about section',
+            'footer' => 'This is the footer section',
+            'banner'=> 'This is a banner',
+            'coupon' => '50off',
+            'tax' => 10
         ]);
 
     }
