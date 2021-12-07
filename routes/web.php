@@ -25,6 +25,8 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
+Route::get('/test', [OrderController::class, 'decrProductsQty']);
+
 //Storefront routes
 Route::get('/', [StoreFrontController::class, 'index']);
 Route::get('/category/product/all', [StoreFrontController::class, 'products'])->name('productindex');
@@ -56,7 +58,7 @@ Route::resources([
     'category' => CategoryController::class,
 ]);
 
-Route::get('/admin/dashboard', [SettingsController::class, 'dashboard'])->name('admin.dashboard');
+Route::get('/admin/dashboard', [SettingsController::class, 'settings'])->name('admin.dashboard');
 Route::get('/admin/dashboard/settings',[SettingsController::class, 'settings'])->name('admin.settings');
 Route::patch('/admin/dashboard/settings',[SettingsController::class, 'updateSettings'])->name('admin.updateSettings');
 

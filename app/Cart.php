@@ -61,7 +61,6 @@ class Cart
 	//update or create
 	public function update($product, $unit)
 	{
-
 		//instantiate a new product to be added to cart
 		$productInCart = ['units' => 0, 'unitsTotal' => 0, 'product' => $product];
 

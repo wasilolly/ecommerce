@@ -73,7 +73,7 @@ class ProductController extends Controller
             }
         }
 
-        return redirect(route('product.index'));
+        return redirect(route('product.index'))->with('sucess','New Product added!');
     }
 
     /**
@@ -129,7 +129,7 @@ class ProductController extends Controller
             }
         }
        
-        return redirect(route('product.index'));
+        return redirect(route('product.index'))->with('success','Product Updated!');
     }
 
     /**
@@ -142,7 +142,7 @@ class ProductController extends Controller
     {
         CategoryProduct::where('product_id', $id)->delete();
         Product::where('id', $id)->delete();
-        return redirect(route('product.index'));
+        return redirect(route('product.index'))->with('success', 'Product removed!');
     }
 
     /**

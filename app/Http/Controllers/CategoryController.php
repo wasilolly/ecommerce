@@ -38,7 +38,7 @@ class CategoryController extends Controller
             'slug' => Str::slug($request->title)
         ]);
         
-        return redirect()->route('category.index');
+        return redirect()->route('category.index')->with('success', 'New Category Created!');
 
     }
 
@@ -70,7 +70,7 @@ class CategoryController extends Controller
         $category->slug = Str::slug($request->name);
         $category->update($request->all());
 
-        return view('admin.category.show',[ 'category' => $category]);
+        return view('admin.category.show',[ 'category' => $category])->with('success', 'Category Updated');
     }
 
     /**
@@ -82,6 +82,6 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         Category::find($id)->delete();
-        return redirect()->route('category.index');
+        return redirect()->route('category.index')->with('success', 'Category Deleted');
     }
 }

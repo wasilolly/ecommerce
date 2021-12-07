@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\Settings;
 use App\Models\User;
 
@@ -26,10 +27,14 @@ class OrderController extends Controller
            $attribute['name'] = $user->name;
            $attribute['email'] = $user->email;
         }
+        $this->decrProductsQty();
         $attribute['cart'] = serialize(session('cart'));
-        Order::create($attribute);
+        $order = Order::create($attribute);
 
-        return 'Order created';
+        //remove cart from session
+        request()->session()->flush('cart');
+
+        return redirect(route('order.show', ['id'=> $order->id]));
     }
 
     public function show($id)
@@ -40,5 +45,15 @@ class OrderController extends Controller
                 'setting' => Settings::first(),
                 'order' => $order
             ]);
+    }
+
+    public function decrProductsQty()
+    {
+        $cart = session('cart');
+        foreach ($cart->products as $item) {
+            $product = Product::find($item['product']['id']);
+            $product->quantity -= $item['units'];
+            $product->update();
+        }
     }
 }

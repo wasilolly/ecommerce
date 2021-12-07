@@ -10,10 +10,6 @@ use Illuminate\Http\Request;
 
 class SettingsController extends Controller
 {
-    public function dashboard()
-    {
-        return view('admin.dashboard');
-    }
 
     public function settings()
     {
@@ -22,9 +18,9 @@ class SettingsController extends Controller
 
     public function updateSettings()
     {
-
         $setting = Settings::first();
         $setting->update(request()->all());
+        request()->session()->flash('success','Settings Updated!');
         return view('admin.settings', ['setting' => Settings::first()]);
     }
 
@@ -40,6 +36,7 @@ class SettingsController extends Controller
 
     public function userDestroy($id)
     {
+        request()->session()->flash('success','User Deleted!');
         return view('admin.users',
             [
                 'setting' => Settings::first(),
@@ -53,9 +50,11 @@ class SettingsController extends Controller
         $user = User::find($id);
         if ($user->admin) {
             $user->admin = 0;
+            request()->session()->flash('success','Admin priviledge revoked for this user!');
 
         } else {
             $user->admin = 1;
+            request()->session()->flash('success','Admin priviledge added for this user!');
         }
         
         $user->update();
@@ -67,19 +66,7 @@ class SettingsController extends Controller
             ]
         );
     }
-    public function notadmin($id)
-    {
-        $user = User::find($id);
-        $user->admin = 0;
-        $user->update();
-        return view('admin.users',
-            [
-                'setting' => Settings::first(),
-                'users' => User::latest()->get()
-            ]
-        );
-    }
-
+   
     public function orders()
     {
         $orders = Order::latest()->get();

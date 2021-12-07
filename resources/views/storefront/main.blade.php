@@ -25,10 +25,14 @@
     <!-- Banner section -->
     @yield('banner')
 
-    <div class="alert">
-       
-    </div>
-
+    <!-- Alert section -->
+    @if (session()->has('success'))
+      <div x-data="{ show:true}" x-init="setTimeout(() => show = false, 4000)" x-show="show"
+          class="fixed right-0 bg-purple-500 text-white py-2 px-4 rounded-xl font-bold text-m">
+          <p>{{ session('success') }}</p>
+      </div>
+    @endif
+    
     <section class="bg-white">
         <div class="container mx-auto flex items-center flex-wrap">
             <!--Header section -->
