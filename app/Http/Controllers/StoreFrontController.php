@@ -14,6 +14,17 @@ class StoreFrontController extends Controller
 {
     public function index()
     {
+        if(request('search')){
+            $products = Product::where('slug', 'like', '%'.request('search').'%')
+                            ->orWhere('description', 'like', '%'.request('search').'%')->get();
+
+            return view('storefront.index',[
+                'products' => $products,
+                'categories' => Category::latest()->get(),
+                'setting' =>  Settings::first()
+            ]);
+        }
+
         return view('storefront.frontpage',[
             'products' => Product::latest()->get(),
             'categories' => Category::latest()->get(),

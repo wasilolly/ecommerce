@@ -33,10 +33,6 @@
             <div class="p-4 bg-gray-100 rounded-full">
                 <h1 class="ml-2 font-bold uppercase">Payment</h1>
             </div>
-            <div class="p-4">
-                <p class="mb-4 italic">If you have some information for the seller you can leave them in the box below</p>
-                <textarea class="w-full h-20 p-2 bg-gray-100 rounded"></textarea>
-            </div>
 
             <!--Payment Details-->
             <div class="p-4 w-full">
@@ -54,7 +50,10 @@
                                 <input class="w-full px-5  py-4 text-gray-700 bg-gray-200 rounded" id="email" name="email" type="text" required="" placeholder="Your Email" aria-label="Email">
                             </div>
                         @endguest
-                      
+                        <div class="p-4">
+                            <p class="mb-4 italic">If you have some information for the seller you can leave them in the box below</p>
+                            <textarea class="w-full h-20 p-2 bg-gray-100 rounded" name="message"></textarea>
+                        </div>
                         <div class="mt-2">
                             <label class=" block text-sm text-gray-600" for="address">Address</label>
                             <textarea class="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded" id="address" name="address" type="text" required="" placeholder="Your Address" aria-label="address"></textarea>

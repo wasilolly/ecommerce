@@ -12,15 +12,11 @@ class CartController extends Controller
 {
     public function cart(Request $request)
     {
-        // $session =   $request->session()->all();
-        //var_dump($session);
-        //$request->session()->flush();
         if ($request->session()->has('cart')) {
             $cart = $request->session()->get('cart');
             return view('storefront.cart', [
                 'cart' => $cart,
                 'setting' =>  Settings::first()
-
             ]);
         }
 
@@ -78,7 +74,7 @@ class CartController extends Controller
         }
         return view('storefront.checkout', [ 'setting' =>  Settings::first(), 
                                              'cart' => $cart,
-        ]);
+                                            ]);
     }
 
    

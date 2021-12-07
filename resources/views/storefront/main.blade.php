@@ -12,7 +12,7 @@
 
     <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
     <!--Replace with your tailwind.css once created-->
-    <link href="https://fonts.googleapis.com/css?family=Work+Sans:200,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href={{asset('css/ecommerce.css')}}>
 
 </head>
@@ -38,22 +38,21 @@
             <!--Header section -->
             <nav id="store" class="w-full z-30 top-0 px-6 py-1">
                 <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-3">
-
-                    <a class="uppercase tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl "
-                        href="#">
+                    <div class="uppercase tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-sm">
                         @yield('Header')
-                    </a>
+                    </div>
 
+                    <!--Search Input-->
                     <div class="flex items-center" id="store-nav-content">
-
                         <div class="relative mt-6 max-w-lg mx-auto">
                             <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
                                 <svg class="h-5 w-5 text-gray-500" viewBox="0 0 24 24" fill="none">
                                     <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                             </span>
-                
-                                <input class="w-full border rounded-md pl-10 pr-4 py-2 focus:border-blue-500 focus:outline-none focus:shadow-outline" type="text" placeholder="Search">
+                            <form action="/" method="get">
+                                <input name="search" class="w-full border rounded-md pl-10 pr-4 py-2 focus:border-blue-500 focus:outline-none focus:shadow-outline" type="text" value="{{ request('search')}}" placeholder="Search" >
+                            </form>
                         </div>
                     </div>
                 </div>

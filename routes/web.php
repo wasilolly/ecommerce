@@ -25,8 +25,6 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
-Route::get('/test', [OrderController::class, 'decrProductsQty']);
-
 //Storefront routes
 Route::get('/', [StoreFrontController::class, 'index']);
 Route::get('/category/product/all', [StoreFrontController::class, 'products'])->name('productindex');
@@ -35,13 +33,13 @@ Route::get('/category/{slug}/show', [StoreFrontController::class, 'category'])->
 
 
 //cart ajax call
-Route::get('/product/cart/add',[CartController::class, 'add']);
+Route::get('/product/cart/add', [CartController::class, 'add']);
 //Route::get('/product/cart/update',[CartController::class, 'update']);
-Route::get('/cart',[CartController::class, 'cart']);
-Route::post('/cart/remove',[CartController::class, 'remove'])->name('cart.remove');
-Route::get('/cart/checkout',[CartController::class, 'checkout'])->name('cart.checkout');
+Route::get('/cart', [CartController::class, 'cart']);
+Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 
-Route::post('/cart/order',[OrderController::class, 'save'])->name('order');
+Route::post('/cart/order', [OrderController::class, 'save'])->name('order');
 Route::get('cart/order/{id}', [OrderController::class, 'show'])->name('order.show');
 
 
@@ -50,31 +48,21 @@ Route::get('cart/order/{id}', [OrderController::class, 'show'])->name('order.sho
 
 //admin  routes
 
-Route::middleware(['auth', 'second'])->group(function () {
-    
+Route::middleware(['admin'])->group(function () {
+    Route::resources([
+        'product' => ProductController::class,
+        'category' => CategoryController::class,
+    ]);
+    Route::get('/admin/dashboard/settings', [SettingsController::class, 'settings'])->name('admin.settings');
+    Route::patch('/admin/dashboard/settings', [SettingsController::class, 'updateSettings'])->name('admin.updateSettings');
+    Route::get('/admin/dashboard/users', [SettingsController::class, 'users'])->name('admin.users');
+    Route::delete('/admin/dashboard/user/{id}', [SettingsController::class, 'userDestroy'])->name('admin.userdelete');
+    Route::post('/admin/dashboard/users/admin/{id}', [SettingsController::class, 'admin'])->name('admin.adminuser');
+    Route::get('/admin/dashboard/orders', [SettingsController::class, 'orders'])->name('admin.orders');
 });
-Route::resources([
-    'product' => ProductController::class,
-    'category' => CategoryController::class,
-]);
-
-Route::get('/admin/dashboard', [SettingsController::class, 'settings'])->name('admin.dashboard');
-Route::get('/admin/dashboard/settings',[SettingsController::class, 'settings'])->name('admin.settings');
-Route::patch('/admin/dashboard/settings',[SettingsController::class, 'updateSettings'])->name('admin.updateSettings');
-
-Route::get('/admin/dashboard/users', [SettingsController::class, 'users'])->name('admin.users');
-Route::delete('/admin/dashboard/user/{id}', [SettingsController::class, 'userDestroy'])->name('admin.userdelete');
-Route::post('/admin/dashboard/users/admin/{id}', [SettingsController::class, 'admin'])->name('admin.adminuser');
-Route::get('/admin/dashboard/orders', [SettingsController::class, 'orders'])->name('admin.orders');
-
-
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
-
-
-
-
+require __DIR__ . '/auth.php';
