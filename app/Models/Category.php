@@ -39,9 +39,20 @@ class Category extends Model
             foreach ($rows as $row ) {
             $product = Product::find($row->product_id);
             array_push($products, $product);
-        }  
+            }  
         }
        
         return $products;
     }
+
+    public function getProductsQty()
+    {
+        $products = $this->getCategoryProducts();
+        $qty = array();
+        foreach ($products as $product) {
+           $qty['product->id'] = $product['quantity'];
+        }
+        return $qty;
+    }
+    
 }

@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
 			$table->string('image');
 			$table->bigInteger('price');
 			$table->bigInteger('quantity');
+            $table->bigInteger('sold')->default(0);
 			$table->text('description')->nullable();
         });
     }

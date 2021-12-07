@@ -69,13 +69,18 @@ class SettingsController extends Controller
    
     public function orders()
     {
+        $sales = 0;
         $orders = Order::latest()->get();
         $orders->map(function($order, $key){
             $order->cart = unserialize($order->cart);
         });
+        foreach ($orders as $order) {
+            $sales += $order->cart->totalPrice;
+        }
         return view('admin.orders', [
                 'setting' => Settings::first(),
-                'orders' => $orders
+                'orders' => $orders,
+                'sales' => $sales
             ]);
     }
 }

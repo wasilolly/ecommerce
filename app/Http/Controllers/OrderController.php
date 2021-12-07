@@ -53,6 +53,7 @@ class OrderController extends Controller
         foreach ($cart->products as $item) {
             $product = Product::find($item['product']['id']);
             $product->quantity -= $item['units'];
+            $product->sold += $item['units'];
             $product->update();
         }
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\CategoryProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -83,5 +84,13 @@ class CategoryController extends Controller
     {
         Category::find($id)->delete();
         return redirect()->route('category.index')->with('success', 'Category Deleted');
+    }
+
+    public function untag($id)
+    {
+       $row = CategoryProduct::where('product_id',$id)
+                        ->where('category_id', request('categoryId'))->delete();
+        return back()->with('success', 'Product removed from category');
+        
     }
 }

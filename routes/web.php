@@ -6,6 +6,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StoreFrontController;
+use App\Models\Category;
 use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
 
@@ -49,16 +50,17 @@ Route::get('cart/order/{id}', [OrderController::class, 'show'])->name('order.sho
 //admin  routes
 
 Route::middleware(['admin'])->group(function () {
-    Route::resources([
-        'product' => ProductController::class,
-        'category' => CategoryController::class,
-    ]);
-    Route::get('/admin/dashboard/settings', [SettingsController::class, 'settings'])->name('admin.settings');
-    Route::patch('/admin/dashboard/settings', [SettingsController::class, 'updateSettings'])->name('admin.updateSettings');
-    Route::get('/admin/dashboard/users', [SettingsController::class, 'users'])->name('admin.users');
-    Route::delete('/admin/dashboard/user/{id}', [SettingsController::class, 'userDestroy'])->name('admin.userdelete');
-    Route::post('/admin/dashboard/users/admin/{id}', [SettingsController::class, 'admin'])->name('admin.adminuser');
-    Route::get('/admin/dashboard/orders', [SettingsController::class, 'orders'])->name('admin.orders');
+
+    Route::resource('/admin/category', CategoryController::class);
+    Route::resource('/admin/product', ProductController::class);
+
+    Route::patch('/admin/category/{id}/untag', [CategoryController::class, 'untag'])->name('admin.categoryuntag');
+    Route::get('/admin/settings', [SettingsController::class, 'settings'])->name('admin.settings');
+    Route::patch('/admin/settings', [SettingsController::class, 'updateSettings'])->name('admin.updateSettings');
+    Route::get('/admin/users', [SettingsController::class, 'users'])->name('admin.users');
+    Route::delete('/admin/user/{id}', [SettingsController::class, 'userDestroy'])->name('admin.userdelete');
+    Route::post('/admin/users/admin/{id}', [SettingsController::class, 'admin'])->name('admin.adminuser');
+    Route::get('/admin/orders', [SettingsController::class, 'orders'])->name('admin.orders');
 });
 
 Route::get('/dashboard', function () {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\CategoryProduct;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -18,7 +19,16 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('admin.product.index', ['products' => Product::latest()->get()]);
+        $sales = 0;
+        $orders = Order::all('cart');
+        $orders->map(function($order, $key){
+            $order->cart = unserialize($order->cart);
+        });
+        foreach ($orders as $order) {
+            $sales += $order->cart->totalPrice;
+        }
+        return view('admin.product.index', ['products' => Product::latest()->get(),
+                                                'sales' => $sales]);
     }
 
     /**
