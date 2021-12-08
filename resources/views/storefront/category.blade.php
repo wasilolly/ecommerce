@@ -20,7 +20,8 @@
 @endsection
 
 @section('Header')
- {{$category->name}}
+<div style="padding-top: 0.1em; padding-bottom: 0.1rem" class="text-xs px-3 bg-gray-200 text-purple-800 rounded-full hover:grow hover:bg-purple-100">{{$category->name}}
+</div>  
 @endsection
 
 @section('content')

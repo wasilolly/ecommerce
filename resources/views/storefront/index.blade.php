@@ -20,10 +20,12 @@
 @endsection
 
 @section('Header')
-<div class="tags ml-8 pl-4 ">
-    @foreach ($categories as $category)        
-      | <a href="{{route('singlecategory.show', ['slug' => $category->slug ])}}" class="font-bold text-lg hover:grow hover:shadow-md  hover:bg-purple-200 rounded-md">{{$category->name}}</a> |
-    @endforeach
+<div class="flex flex-col space-y-2">
+    <div class="flex space-x-2">
+        @foreach ($categories as $category)
+        <a href="{{ route('singlecategory.show',['slug' => $category->slug])}}" style="padding-top: 0.1em; padding-bottom: 0.1rem" class="text-xs px-3 bg-gray-200 text-purple-800 rounded-full hover:grow hover:bg-purple-100">{{$category->name}}</a>        
+        @endforeach
+    </div>
 </div>
 @endsection
 
