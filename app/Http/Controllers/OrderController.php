@@ -34,7 +34,7 @@ class OrderController extends Controller
         //remove cart from session
         request()->session()->flush('cart');
 
-        return redirect(route('order.show', ['id'=> $order->id]));
+        return redirect(route('userOrders'));
     }
 
     public function show($id)
@@ -56,5 +56,19 @@ class OrderController extends Controller
             $product->sold += $item['units'];
             $product->update();
         }
+    }
+
+    public function userOrders()
+    {
+        $userId = Auth()->user()->id;
+        $orders = Order::where('user_id',$userId)->get();
+        $orders->map(function($order, $key){
+            $order->cart = unserialize($order->cart);
+        });
+       
+        return view('auth.dashboard', [
+                'setting' => Settings::first(),
+                'orders' => $orders
+            ]);
     }
 }

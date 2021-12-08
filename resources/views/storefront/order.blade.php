@@ -7,7 +7,7 @@
 @section('content')
 
 <!-- component -->
-<div class="flex justify-center my-6" id="receipt">
+<div class="flex justify-center my-6 text-xs" id="receipt">
     <div class="flex flex-col w-full p-8 text-gray-800 bg-white shadow-lg pin-r pin-y md:w-4/5 lg:w-4/5">
        
         <!--Logo and customer metadate -->

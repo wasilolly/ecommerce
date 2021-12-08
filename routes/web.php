@@ -6,8 +6,6 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StoreFrontController;
-use App\Models\Category;
-use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
 
 
@@ -22,9 +20,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/welcome', function () {
-    return view('welcome');
-});
 
 //Storefront routes
 Route::get('/', [StoreFrontController::class, 'index']);
@@ -44,9 +39,6 @@ Route::post('/cart/order', [OrderController::class, 'save'])->name('order');
 Route::get('cart/order/{id}', [OrderController::class, 'show'])->name('order.show');
 
 
-
-
-
 //admin  routes
 
 Route::middleware(['admin'])->group(function () {
@@ -63,8 +55,6 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/admin/orders', [SettingsController::class, 'orders'])->name('admin.orders');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/user/dashboard', [OrderController::class, 'userOrders'])->middleware(['auth'])->name('dashboard');
 
 require __DIR__ . '/auth.php';

@@ -37,7 +37,7 @@ class CartController extends Controller
         return response()->json([
             'success' => 'added',
             'product' => $product,
-            'cartQty' => $cartQty
+            'cartQty' => $cartQty,
         ]);
     }
 

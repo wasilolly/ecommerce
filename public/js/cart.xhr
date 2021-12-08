@@ -12,9 +12,16 @@ $(document).ready(function(){
         function(data,status){
             if(data['product']){
                 let product = data['product']['name'];
-                //let qty = $("#cartqty").text();
-               // let cartqty = parseFloat(qty) + parseFloat(unit);
                 $("#cartqty").text(data['cartQty']);
+                Swal.fire({
+                        position: 'top-end',
+                        width: 200,
+                        toast:true,
+                        icon: 'success',
+                        title: 'Added to Cart',
+                        showConfirmButton: false,
+                        timer: 1500
+                });
             }         
         });
     });
@@ -33,6 +40,15 @@ $(document).ready(function(){
                 if(data['product']){
                     let product = data['product']['name'];
                     $("#cartqty").text(data['cartQty']);
+                    Swal.fire({
+                        position: 'top-end',
+                        width: 200,
+                        toast:true,
+                        icon: 'success',
+                        title: 'Added to Cart',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 }         
             });
         });
